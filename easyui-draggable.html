@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="themes/icon.css">
+<link rel="stylesheet" type="text/css" href="css/demo.css">
+<title>EasyUI Draggable Demo</title>
+</head>
+<body>
+   <h2>基本拖动</h2>
+	<p>通过鼠标拖动移动div</p>
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-draggable" style="width:200px;height:150px;background:#fafafa;border:1px solid #ccc"></div>
+	<div class="easyui-draggable" data-options="handle:'#title'" style="width:200px;height:150px;background:#fafafa;border:1px solid #ccc;margin-top:10px">
+		<div id="title" style="padding:5px;background:#ccc;color:#fff">Title</div>
+	</div>
+    <h2>带约束条件的拖动</h2>
+	<p>可拖动对象只能限制在父容器中</p>
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" style="position:relative;overflow:hidden;width:500px;height:300px">
+		<div class="easyui-draggable" data-options="onDrag:onDrag1" style="width:100px;height:100px;background:#fafafa;border:1px solid #ccc;">
+		</div>
+	</div>
+	<script>
+		function onDrag1(e){
+			var d = e.data;
+			if (d.left < 0){d.left = 0}
+			if (d.top < 0){d.top = 0}
+			if (d.left + $(d.target).outerWidth() > $(d.parent).width()){
+				d.left = $(d.parent).width() - $(d.target).outerWidth();
+			}
+			if (d.top + $(d.target).outerHeight() > $(d.parent).height()){
+				d.top = $(d.parent).height() - $(d.target).outerHeight();
+			}
+		}
+	</script>
+
+	<h2>折断拖动</h2>
+	<p>当拖动位置超过父容器时将被遮挡</p>
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-panel" style="position:relative;overflow:hidden;width:500px;height:300px">
+		<div class="easyui-draggable" data-options="onDrag:onDrag2" style="width:100px;height:100px;background:#fafafa;border:1px solid #ccc;">
+		</div>
+	</div>
+	<script>
+		function onDrag2(e){
+			var d = e.data;
+			d.left = repair(d.left);
+			d.top = repair(d.top);
+			
+			function repair(v){
+				var r = parseInt(v/20)*20;
+				if (Math.abs(v % 20) > 10){
+					r += v > 0 ? 20 : -20;
+				}
+				return r;
+			}
+		}
+	</script>
+</body>
+	
+</html>
