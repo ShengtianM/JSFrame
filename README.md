@@ -8,3 +8,6 @@ JS Frame
 ##actions.html  
 
 单击显示/隐藏子元素
+
+##cookie.html   
+使用Javascript读取cookies
